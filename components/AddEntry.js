@@ -1,18 +1,28 @@
 import React, { Component } from 'react'
-import { View } from 'react-native'
-import { getMetricMetaInfo } from '../utils/helpers'
+import { View, Text, TouchableOpacity } from 'react-native'
+import { getMetricMetaInfo, timeToString } from '../utils/helpers'
 import UdaciSlider from './UdaciSlider'
 import UdaciSteppers from './UdaciSteppers'
 import DateHeader from './DateHeader'
 
+function SubmitBtn ({ onPress }) {
+  return (
+    <TouchableOpacity onPress={onPress}>
+      <Text>SUBMIT</Text>
+    </TouchableOpacity>
+  )
+}
+
 class AddEntry extends Component {
-  state = {
+  _initialState = {
     run: 0,
     bike: 0,
     swim: 0,
     sleep: 0,
     eat: 0,
   }
+
+  state = this._initialState
 
   increment = (metric) => {
     const { max, step } = getMetricMetaInfo(metric)
@@ -40,6 +50,13 @@ class AddEntry extends Component {
 
   slide = (metric, value) => {
     this.setState({ [metric]: value })
+  }
+
+  submit = () => {
+    const key = timeToString()
+    const entry = this.state
+
+    this.setState(this._initialState)
   }
 
   render () {
@@ -70,6 +87,7 @@ class AddEntry extends Component {
           )
 
         })}
+        <SubmitBtn onPress={this.submit} />
       </View>
     )
   }
