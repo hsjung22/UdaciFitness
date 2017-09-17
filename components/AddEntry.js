@@ -6,6 +6,7 @@ import UdaciSlider from './UdaciSlider'
 import UdaciSteppers from './UdaciSteppers'
 import DateHeader from './DateHeader'
 import TextButton from './TextButton'
+import { submitEntry, removeEntry } from '../utils/api'
 
 function SubmitBtn ({ onPress }) {
   return (
@@ -59,10 +60,14 @@ class AddEntry extends Component {
     const entry = this.state
 
     this.setState(this._initialState)
+
+    submitEntry({ key, entry })
   }
 
   reset = () => {
     const key = timeToString()
+
+    removeEntry(key)
   }
 
   render () {
