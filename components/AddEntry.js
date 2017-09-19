@@ -10,6 +10,7 @@ import TextButton from './TextButton'
 import { submitEntry, removeEntry } from '../utils/api'
 import { addEntry } from '../actions'
 import { white, purple } from '../utils/colors'
+import { NavigationActions } from 'react-navigation'
 
 function SubmitBtn ({ onPress }) {
   return (
@@ -70,6 +71,7 @@ class AddEntry extends Component {
     }))
     // reset component state
     this.setState(this._initialState)
+    this.toHome()
     // save to AsyncStorage
     submitEntry({ key, entry })
   }
@@ -80,8 +82,16 @@ class AddEntry extends Component {
     this.props.dispatch(addEntry({
       [key]: getDailyReminderValue()
     }))
+
+    this.toHome()
     // update AsyncStorage
     removeEntry(key)
+  }
+
+  toHome = () => {
+    this.props.navigation.dispatch(NavigationActions.back({
+      key: 'AddEntry'
+    }))
   }
 
   render () {
