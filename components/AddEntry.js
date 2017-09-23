@@ -2,7 +2,13 @@ import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, Platform, StyleSheet } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { connect } from 'react-redux'
-import { getMetricMetaInfo, timeToString, getDailyReminderValue } from '../utils/helpers'
+import {
+  getMetricMetaInfo,
+  timeToString,
+  getDailyReminderValue,
+  clearLocalNotification,
+  setLocalNotification,
+} from '../utils/helpers'
 import UdaciSlider from './UdaciSlider'
 import UdaciSteppers from './UdaciSteppers'
 import DateHeader from './DateHeader'
@@ -74,6 +80,9 @@ class AddEntry extends Component {
     this.toHome()
     // save to AsyncStorage
     submitEntry({ key, entry })
+
+    clearLocalNotification()
+      .then(setLocalNotification)
   }
 
   reset = () => {
